@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>post a blog</title>
+    <script type="text/javascript" src="../static/jquery.js"></script>
+    <link type="text/css" rel="stylesheet" href="../static/style.css" />
+</head>
+<body>
+<a href="/" class="link">Back to Home</a>
+<br>
+<br>
+<h3>Post your blog</h3>
+{% if blog_index %}
+<textarea id="blog_content_edit" style="border:0;border-radius:5px;background-color:rgba(241,241,241,.98);width: 355px;height: 100px;padding: 10px;resize: none;" placeholder="share something">{{ blog_content }}</textarea>
+<br>
+<input type="submit" value="submit" onclick="Submit_edit()">
+{% else %}
+<textarea id="blog_content" style="border:0;border-radius:5px;background-color:rgba(241,241,241,.98);width: 355px;height: 100px;padding: 10px;resize: none;" placeholder="share something"></textarea>
+<br>
+<input type="submit" value="submit" onclick="Submit()">
+{% endif %}
+<script type="text/javascript">
+console.log('{{blog_index}}');
+    function Submit_edit(){
+        let blog_content = $('#blog_content_edit').val();
+        $.ajax({
+            url:"/edit_a_blog",
+            type:"POST",
+            datatype:"json",
+            data:{'blog_index':{{blog_index}},'blog_content':blog_content},
+            success:function(data){
+                console.log("success!");
+                if ('{{role}}' == 'admin'){
+                    window.location.href = "/approve_a_blog";
+                }
+                else{
+                    window.location.href = "/review_a_blog";
+                }
+            },
+            error:function(){
+                console.log("error");
+            }
+        });
+    }
+
+    function Submit(){
+        let blog_content = $('#blog_content').val();
+        $.ajax({
+            url:"/edit_a_blog",
+            type:"POST",
+            datatype:"json",
+            data:{'blog_content':blog_content},
+            success:function(data){
+                console.log("success!");
+                window.location.href="/";
+            },
+            error:function(){
+                console.log("error");
+            }
+        });
+    }
+</script>
+</body>
+</html>
+

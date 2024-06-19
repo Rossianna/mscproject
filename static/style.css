@@ -1,0 +1,17 @@
+.head-style{
+    padding:12px;
+    padding-bottom:32px;
+}
+
+.link{
+    display:block;
+    text-align:left;
+    text-decoration:none;
+    color:blue;
+    cursor:pointer;
+}
+
+.author{
+    white-space:nowrap;
+}
+

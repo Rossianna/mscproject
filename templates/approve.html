@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>approve</title>
+    <script type="text/javascript" src="../static/jquery.js"></script>
+    <link type="text/css" rel="stylesheet" href="../static/style.css" />
+</head>
+<body>
+Hello, {{ current_user }}
+<br>
+<a class="link" href="/">Back to Home</a>
+{% for blog in blog_content %}
+<p>-----------------</p>
+<div><p class="blog_content">{{ blog.content }}</p></div>
+<div style="display:flex;"><p class="author">author：</p><p class="blog_username"> {{ blog.username }}</p></div>
+<input class="edit" data-blog-index="{{ blog.id }}" type="submit" value="edit" onclick="Edit(this)">
+<input class="approve" data-blog-index="{{ blog.id }}" type="submit" value="approve" onclick="Approve(this)">
+
+<br>
+{% endfor %}
+
+<script type="text/javascript">
+    function Edit(button){
+        let blog_index=$(button).data('blog-index');
+        console.log(blog_index);
+        let blog_content=$(button).prevAll('div').eq(1).find('.blog_content').text().trim();
+        let blog_username=$(button).prevAll('div').first().find('.blog_username').text().trim();
+        console.log(blog_username);
+        console.log(blog_content);
+        $.ajax({
+            url:"/post_a_blog",
+            type:"POST",
+            datatype:"json",
+            data:{'mode':'edit','blog_index':blog_index},
+            success:function(data){
+                window.location.href="/post_a_blog?blog_index="+blog_index;
+                console.log("edit_mode");
+            },
+            error:function(){
+                console.log("error");
+            }
+        });
+    }
+
+    function Approve(button){
+        let blog_index=$(button).data('blog-index');
+        console.log(blog_index);
+        let blog_content=$(button).prevAll('div').eq(1).find('.blog_content').text().trim();
+        let blog_username=$(button).prevAll('div').first().find('.blog_username').text().trim();
+        console.log(blog_index);
+        console.log(blog_username);
+        console.log(blog_content);
+        $.ajax({
+            url:"/approve",
+            type:"POST",
+            datatype:"json",
+            data:{'blog_index':blog_index,'blog_username':blog_username,'blog_content':blog_content},
+            success:function(data){
+                location.reload();
+                console.log("success!");
+            },
+            error:function(){
+                console.log("error");
+            }
+        });
+    }
+</script>
+</body>
+</html>
