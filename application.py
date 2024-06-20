@@ -9,7 +9,7 @@ from models import PendingData, ApprovedData, User, Role, Permission, AdminView,
 
 
 application = Flask(__name__)
-application.config['SQLALCHEMY_DATABASE_URI'] = "mysql+pymysql://root:Rose-1997-12-13@localhost:3306/staff_info?charset=utf8"
+application.config['SQLALCHEMY_DATABASE_URI'] = "mysql+pymysql://mengyuan:ym97-yyz63@msc-project.mysql.database.azure.com:3306/staff_info?charset=utf8"
 application.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 application.config['SECRET_KEY'] = 'abc%123'
 db.init_app(application)
