@@ -139,6 +139,6 @@ def logout():
 
 
 if __name__ == '__main__':
-    application.run(port=8888, host='localhost')
+    application.run()
 
 
