@@ -66,4 +66,4 @@ jobs:
         with:
           app-name: 'mengyuan'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_DED668CC62D04EFDA66E03FC606451E9 }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_DE440A8827AA4E308ABEA8552DFAF572 }}
