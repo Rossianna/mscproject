@@ -2,7 +2,6 @@ import json
 import requests
 from flask import Flask, render_template, redirect, url_for, request
 from flask_login import LoginManager, login_required, login_user, logout_user, current_user
-from flask_rbac import RBAC
 from flask_admin import Admin, AdminIndexView, expose, BaseView
 from models import PendingData, ApprovedData, User, Role, Permission, AdminView, db, UserView,\
     RoleView, PermissionView
@@ -139,6 +138,6 @@ def logout():
 
 
 if __name__ == '__main__':
-    application.run()
+    application.run(host='0.0.0.0',port=8000)
 
 
