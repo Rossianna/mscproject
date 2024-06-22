@@ -7,17 +7,17 @@ from models import PendingData, ApprovedData, User, Role, Permission, AdminView,
     RoleView, PermissionView
 
 
-application = Flask(__name__)
-application.config['SQLALCHEMY_DATABASE_URI'] = "mysql+pymysql://mengyuan:ym97-yyz63@msc-database.mysql.database.azure.com:3306/staff_info?charset=utf8"
-application.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-application.config['SECRET_KEY'] = 'abc%123'
-db.init_app(application)
-login_manager = LoginManager(application)
+app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = "mysql+pymysql://mengyuan:ym97-yyz63@msc-database.mysql.database.azure.com:3306/staff_info?charset=utf8"
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['SECRET_KEY'] = 'abc%123'
+db.init_app(app)
+login_manager = LoginManager(app)
 login_manager.login_view = 'login'
-login_manager.init_app(application)
+login_manager.init_app(app)
 
 
-admin = Admin(application, index_view=AdminView(), template_mode='bootstrap3')
+admin = Admin(app, index_view=AdminView(), template_mode='bootstrap3')
 admin.add_view(UserView(User, db.session, endpoint='user_db'))
 admin.add_view(RoleView(Role, db.session, endpoint='role_db'))
 admin.add_view(PermissionView(Permission, db.session, endpoint='permission_db'))
@@ -36,7 +36,7 @@ def unauthorized():
     return redirect(url_for('login'))
 
 
-@application.route('/')
+@app.route('/')
 def home():
     blog_content = ApprovedData.query.all()
     if current_user.is_authenticated:
@@ -45,7 +45,7 @@ def home():
         return render_template('home.html', blog_content=blog_content, current_user=None)
 
 
-@application.route('/login', methods=['POST', 'GET'])
+@app.route('/login', methods=['POST', 'GET'])
 def login():
     if request.method == 'POST':
         username = request.form['username']
@@ -60,7 +60,7 @@ def login():
     return render_template('login.html', status=None)
 
 
-@application.route('/post_a_blog', methods=['POST', 'GET'])
+@app.route('/post_a_blog', methods=['POST', 'GET'])
 @login_required
 def post_a_blog():
     if request.method == 'POST':
@@ -82,7 +82,7 @@ def post_a_blog():
             return render_template('post_a_blog.html', blog_index=None, role=current_user.role)
 
 
-@application.route('/edit_a_blog', methods=['POST'])
+@app.route('/edit_a_blog', methods=['POST'])
 @login_required
 def edit_a_blog():
     blog_index = request.form.get('blog_index')
@@ -101,21 +101,21 @@ def edit_a_blog():
     return 'success'
 
 
-@application.route('/approve_a_blog')
+@app.route('/approve_a_blog')
 @login_required
 def approve_a_blog():
     blog_content = PendingData.query.all()
     return render_template('approve.html', blog_content=blog_content, current_user=current_user.username)
 
 
-@application.route('/review_a_blog')
+@app.route('/review_a_blog')
 @login_required
 def review_a_blog():
     blog_content = PendingData.query.filter_by(username=current_user.username).all()
     return render_template('review.html', blog_content=blog_content, current_user=current_user.username)
 
 
-@application.route('/approve', methods=['POST'])
+@app.route('/approve', methods=['POST'])
 @login_required
 def approve():
     blog_index = request.form.get('blog_index')
@@ -131,13 +131,13 @@ def approve():
     return 'success'
 
 
-@application.route('/logout')
+@app.route('/logout')
 def logout():
     logout_user()
     return redirect(url_for('home'))
 
 
 if __name__ == '__main__':
-    application.run(host='0.0.0.0',port=8000)
+    app.run(host='0.0.0.0',port=8000)
 
 
