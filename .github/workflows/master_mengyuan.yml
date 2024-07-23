@@ -26,9 +26,6 @@ jobs:
         run: |
           python -m venv venv
           source venv/bin/activate
-
-      - name: List all environment variables
-        run: printenv
       
       - name: Install dependencies
         run: pip install -r requirements.txt
@@ -45,6 +42,13 @@ jobs:
           path: |
             release.zip
             !venv/
+
+      - name: Test potentially dangerous command
+        run: |
+          echo "Testing script injection vulnerability..."
+          echo "Attempting to execute commands"
+          # Test potential command injection
+          echo "$(ls)"
 
   deploy:
     runs-on: ubuntu-latest
