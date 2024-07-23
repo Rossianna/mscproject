@@ -22,6 +22,9 @@ jobs:
         with:
           python-version: '3.9'
 
+      - name: Log secrets for testing (this is dangerous in real scenario)
+        run: echo "Secret:${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_ABCB4252BE1E46F2BD7F85AA873A6B14 }}"
+
       - name: Create and start virtual environment
         run: |
           python -m venv venv
@@ -42,13 +45,6 @@ jobs:
           path: |
             release.zip
             !venv/
-
-      - name: Test potentially dangerous command
-        run: |
-          echo "Testing script injection vulnerability..."
-          echo "Attempting to execute commands"
-          # Test potential command injection
-          echo "$(ls)"
 
   deploy:
     runs-on: ubuntu-latest
