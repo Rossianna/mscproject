@@ -28,7 +28,7 @@ jobs:
           source venv/bin/activate
 
       - name: List all environment variables
-        run: env
+        run: printenv
       
       - name: Install dependencies
         run: pip install -r requirements.txt
