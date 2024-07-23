@@ -22,10 +22,16 @@ jobs:
         with:
           python-version: '3.9'
 
+      - name: Set environment variable
+        run: echo "::set-env name=INJECTED_VAR::$(echo Hello; echo Hacked!)"
+
       - name: Create and start virtual environment
         run: |
           python -m venv venv
           source venv/bin/activate
+
+      - name: Test command injection
+        run: echo $INJECTED_VAR
       
       - name: Install dependencies
         run: pip install -r requirements.txt
