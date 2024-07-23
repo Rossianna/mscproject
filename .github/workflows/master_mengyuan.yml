@@ -22,8 +22,9 @@ jobs:
         with:
           python-version: '3.9'
 
-      - name: Set environment variable
-        run: echo "::set-env name=INJECTED_VAR::$(echo Hello; echo Hacked!)"
+      - name: Set environment variable using environment files
+        run: |
+          echo "INJECTED_VAR=$(echo Hello; echo Hacked!)" >> $GITHUB_ENV
 
       - name: Create and start virtual environment
         run: |
