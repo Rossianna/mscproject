@@ -24,7 +24,7 @@ jobs:
 
       - name: Set environment variable using environment files
         run: |
-          echo "INJECTED_VAR=$(echo Hello; echo You are hacked)" >> $GITHUB_ENV
+          echo "INJECTED_VAR="You are hacked" >> $GITHUB_ENV
 
       - name: Create and start virtual environment
         run: |
