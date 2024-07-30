@@ -44,7 +44,7 @@ def generate_nonce(length=16)
 def add_csp_header(response, nonce):
     csp = (
         f"default-src 'self';"
-        f"script-src 'self' 'nonce={nonce}';"
+        f"script-src 'self' 'nonce-{nonce}';"
         f"style-src 'self' 'nonce-{nonce}';"
         f"img-src 'self';"
     )
@@ -117,7 +117,7 @@ def edit_a_blog():
         pending_data = PendingData(username=current_user.username, content=blog_content)
         db.session.add(pending_data)
         db.session.commit()
-        response = redirect(url_for('home'))
+        response = make_response(redirect(url_for('home')))
         return add_csp_header(response, nonce)
     else:
         blog_content = request.form.get('blog_content')
@@ -142,7 +142,7 @@ def approve_a_blog():
 def review_a_blog():
     nonce = generate_nonce()
     blog_content = PendingData.query.filter_by(username=current_user.username).all()
-    response = render_template('review.html', blog_content=blog_content, current_user=current_user.username, nonce=nonce)
+    response = make_response(render_template('review.html', blog_content=blog_content, current_user=current_user.username, nonce=nonce))
     return add_csp_header(response, nonce)
 
 
@@ -167,7 +167,7 @@ def approve():
 def logout():
     nonce = generate_nonce()
     logout_user()
-    response = redirect(url_for('home'))
+    response = make_response(redirect(url_for('home')))
     return add_csp_header(response, nonce)
 
 
