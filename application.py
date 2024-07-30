@@ -47,7 +47,7 @@ def home():
         response = make_response(render_template('home.html', blog_content=blog_content, current_user=current_user.username, role=current_user.role))
         return add_csp_header(response)
     else:
-        response = make_response(('home.html', blog_content=blog_content, current_user=None))
+        response = make_response(render_template('home.html', blog_content=blog_content, current_user=None))
         return add_csp_header(response)
 
 
