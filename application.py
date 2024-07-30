@@ -68,7 +68,7 @@ def home():
             response = make_response(render_template('home.html', blog_content=blog_content, current_user=None))
     else:
         response = make_response("Website is unavailable to access during this period", 403)
-        return add_csp_header(response)
+    return add_csp_header(response)
 
 
 @app.route('/login', methods=['POST', 'GET'])
