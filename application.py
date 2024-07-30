@@ -51,7 +51,8 @@ def is_working_hours():
     return 9 <= now.hour <= 17
 
 def is_working_days():
-    day = datetime.weekday()
+    workday = datetime.today()
+    day = workday.weekday()
     return 0 <= day <=4
 
 def abac_policy()
