@@ -1,3 +1,6 @@
+import os
+import random
+import string
 import json
 import requests
 from flask import Flask, render_template, redirect, url_for, request, after_this_request, make_response
@@ -35,14 +38,18 @@ def unauthorized():
     print('aaa')
     return redirect(url_for('login'))
 
-def add_csp_header(response):
+def generate_nonce(length=16)
+    return ''.join(random.choice(string.ascii_letters + string.digits) for _ in range(length))
+
+def add_csp_header(response, nonce):
     csp = (
         "default-src 'self';"
-        "script-src 'self';"
-        "style-src 'self';"
+        "script-src 'self' 'nonce={nonce}';"
+        "style-src 'self' 'nonce-{nonce}';"
         "img-src 'self';"
     )
     response.headers['Content-Security-Policy'] = csp
+    response.set_cookie('csp_nonce', nonce)
     return response
 
 @app.route('/')
