@@ -1,6 +1,6 @@
 import json
 import requests
-from flask import Flask, render_template, redirect, url_for, request
+from flask import Flask, render_template, redirect, url_for, request, after_this_request
 from flask_login import LoginManager, login_required, login_user, logout_user, current_user
 from flask_admin import Admin, AdminIndexView, expose, BaseView
 from models import PendingData, ApprovedData, User, Role, Permission, AdminView, db, UserView,\
@@ -35,9 +35,17 @@ def unauthorized():
     print('aaa')
     return redirect(url_for('login'))
 
+def add_csp_header(response):
+    csp = "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self';"
+    response.headers['Content-Security-Policy'] = csp
+    return response
 
 @app.route('/')
 def home():
+    @after_this_request
+    def apply_csp(response):
+        return add_csp_header(response)
+        
     blog_content = ApprovedData.query.all()
     if current_user.is_authenticated:
         return render_template('home.html', blog_content=blog_content, current_user=current_user.username, role=current_user.role)
@@ -47,6 +55,10 @@ def home():
 
 @app.route('/login', methods=['POST', 'GET'])
 def login():
+    @after_this_request
+    def apply_csp(response):
+        return add_csp_header(response)
+        
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
@@ -63,6 +75,10 @@ def login():
 @app.route('/post_a_blog', methods=['POST', 'GET'])
 @login_required
 def post_a_blog():
+    @after_this_request
+    def apply_csp(response):
+        return add_csp_header(response)
+        
     if request.method == 'POST':
         mode = request.form.get('mode')
         if mode == 'edit':
@@ -85,6 +101,10 @@ def post_a_blog():
 @app.route('/edit_a_blog', methods=['POST'])
 @login_required
 def edit_a_blog():
+    @after_this_request
+    def apply_csp(response):
+        return add_csp_header(response)
+        
     blog_index = request.form.get('blog_index')
     print(blog_index)
     if blog_index is None:
@@ -104,6 +124,10 @@ def edit_a_blog():
 @app.route('/approve_a_blog')
 @login_required
 def approve_a_blog():
+    @after_this_request
+    def apply_csp(response):
+        return add_csp_header(response)
+        
     blog_content = PendingData.query.all()
     return render_template('approve.html', blog_content=blog_content, current_user=current_user.username)
 
@@ -111,6 +135,10 @@ def approve_a_blog():
 @app.route('/review_a_blog')
 @login_required
 def review_a_blog():
+    @after_this_request
+    def apply_csp(response):
+        return add_csp_header(response)
+        
     blog_content = PendingData.query.filter_by(username=current_user.username).all()
     return render_template('review.html', blog_content=blog_content, current_user=current_user.username)
 
@@ -118,6 +146,10 @@ def review_a_blog():
 @app.route('/approve', methods=['POST'])
 @login_required
 def approve():
+    @after_this_request
+    def apply_csp(response):
+        return add_csp_header(response)
+        
     blog_index = request.form.get('blog_index')
     print(blog_index)
     blog_username = request.form.get('blog_username')
