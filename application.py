@@ -36,7 +36,12 @@ def unauthorized():
     return redirect(url_for('login'))
 
 def add_csp_header(response):
-    csp = "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self';"
+    csp = (
+        "default-src 'self';"
+        "script-src 'self';"
+        "style-src 'self';"
+        "img-src 'self';"
+    )
     response.headers['Content-Security-Policy'] = csp
     return response
 
