@@ -38,9 +38,10 @@ def unauthorized():
     print('aaa')
     return redirect(url_for('login'))
 
-def generate_nonce(length=16):
-    return ''.join(random.choice(string.ascii_letters + string.digits) for _ in range(length))
-
+def generate_nonce():
+    value = ''.join(random.sample(string.ascii_letters + string.digits, 16)
+    return value
+                   
 def add_csp_header(response, nonce):
     csp = (
         f"default-src 'self';"
