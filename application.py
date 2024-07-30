@@ -1,6 +1,6 @@
 import json
 import requests
-import datetime
+from datetime import datetime
 from flask import Flask, render_template, redirect, url_for, request, make_response
 from flask_login import LoginManager, login_required, login_user, logout_user, current_user
 from flask_admin import Admin, AdminIndexView, expose, BaseView
