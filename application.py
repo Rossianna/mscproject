@@ -45,14 +45,29 @@ def add_csp_header(response):
     response.headers['Content-Security-Policy'] = csp
     return response
 
+def is_working_hours():
+    now = datetime.now()
+    return 9 <= now.hour <= 17
+
+def is working_days():
+    day = datetime.weekday()
+    return 0 <= day <=4
+
+def abac_policy()
+    if is_working_hours() and is_working_days():
+        return True
+    return False
+
 @app.route('/')
 def home():   
     blog_content = ApprovedData.query.all()
-    if current_user.is_authenticated:
-        response = make_response(render_template('home.html', blog_content=blog_content, current_user=current_user.username, role=current_user.role))
-        return add_csp_header(response)
+    if abac_policy():
+        if current_user.is_authenticated:
+            response = make_response(render_template('home.html', blog_content=blog_content, current_user=current_user.username, role=current_user.role))
+        else:
+            response = make_response(render_template('home.html', blog_content=blog_content, current_user=None))
     else:
-        response = make_response(render_template('home.html', blog_content=blog_content, current_user=None))
+        response = make_response("Website is unavailable to access during this period", 403)
         return add_csp_header(response)
 
 
