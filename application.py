@@ -1,6 +1,3 @@
-import os
-import random
-import string
 import json
 import requests
 from flask import Flask, render_template, redirect, url_for, request, after_this_request, make_response
@@ -39,13 +36,8 @@ def unauthorized():
     return redirect(url_for('login'))
 
                    
-def add_csp_header(response, nonce):
-    csp = (
-        f"default-src 'self';"
-        f"script-src 'self';"
-        f"style-src 'self';"
-        f"img-src 'self';"
-    )
+def add_csp_header(response):
+    csp = "default-src 'self';script-src 'self';style-src 'self';img-src 'self';"
     response.headers['Content-Security-Policy'] = csp
     return response
 
@@ -110,7 +102,7 @@ def edit_a_blog():
         pending_data = PendingData(username=current_user.username, content=blog_content)
         db.session.add(pending_data)
         db.session.commit()
-        response = make_response(redirect(url_for('home')))
+        response = redirect(url_for('home'))
         return add_csp_header(response)
     else:
         blog_content = request.form.get('blog_content')
