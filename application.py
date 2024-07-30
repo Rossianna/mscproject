@@ -50,7 +50,7 @@ def is_working_hours():
     now = datetime.now()
     return 9 <= now.hour <= 17
 
-def is working_days():
+def is_working_days():
     day = datetime.weekday()
     return 0 <= day <=4
 
