@@ -49,7 +49,6 @@ def add_csp_header(response, nonce):
         f"img-src 'self';"
     )
     response.headers['Content-Security-Policy'] = csp
-    response.set_cookie('csp_nonce', nonce)
     return response
 
 @app.route('/')
