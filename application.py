@@ -55,7 +55,7 @@ def is_working_days():
     day = workday.weekday()
     return 0 <= day <=4
 
-def abac_policy()
+def abac_policy():
     if is_working_hours() and is_working_days():
         return True
     return False
