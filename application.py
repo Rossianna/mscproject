@@ -91,7 +91,7 @@ def login():
     return add_csp_header(response)
 
 
-@application.route('/post_a_blog', methods=['POST', 'GET'])
+@app.route('/post_a_blog', methods=['POST', 'GET'])
 @login_required
 def post_a_blog():
     if request.method == 'POST':
