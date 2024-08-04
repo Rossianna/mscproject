@@ -24,7 +24,7 @@
 console.log('{{blog_index}}');
 if('{{ authorisation }}'=='0'){
             window.alert('unauthorised request!');
-            window.location.href = "/review";
+            window.location.href = "/review_a_blog";
 }
 else{
     function Submit_edit(){
@@ -40,7 +40,7 @@ else{
                     window.location.href = "/approve_a_blog";
                 }
                 else{
-                    window.location.href = "/review";
+                    window.location.href = "/review_a_blog";
                 }
             },
             error:function(){
