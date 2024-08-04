@@ -24,7 +24,7 @@
 console.log('{{blog_index}}');
 if('{{ authorisation }}'=='0'){
             window.alert('unauthorised request!');
-            window.location.href = "/review_a_blog";
+            window.location.href = "/review";
 }
 else{
     function Submit_edit(){
@@ -33,14 +33,14 @@ else{
             url:"/edit_a_blog",
             type:"POST",
             datatype:"json",
-            data:{'blog_index':{{blog_index}},'blog_content':blog_content},
+            data:{'blog_index':blog_index,'blog_content':blog_content},
             success:function(data){
                 console.log("success!");
                 if ('{{role}}' == 'admin'){
                     window.location.href = "/approve_a_blog";
                 }
                 else{
-                    window.location.href = "/review_a_blog";
+                    window.location.href = "/review";
                 }
             },
             error:function(){
