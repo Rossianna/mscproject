@@ -91,26 +91,30 @@ def login():
     return add_csp_header(response)
 
 
-@app.route('/post_a_blog', methods=['POST', 'GET'])
+@application.route('/post_a_blog', methods=['POST', 'GET'])
 @login_required
-def post_a_blog(): 
+def post_a_blog():
     if request.method == 'POST':
         mode = request.form.get('mode')
         if mode == 'edit':
             blog_index = request.form.get('blog_index')
             blog = PendingData.query.get(blog_index)
             blog_content = blog.content
-            response = make_response(render_template('post_a_blog.html', blog_index=blog_index, blog_content=blog_content))
+            response = make_response(render_template('post_a_blog.html', blog_index=blog_index, blog_content=blog_content, user=current_user.username, role=current_user.role))
             return add_csp_header(response)
     elif request.method == 'GET':
         blog_index = request.args.get('blog_index')
         if blog_index is not None:
             blog = PendingData.query.get(blog_index)
-            blog_content = blog.content
-            response = make_response(render_template('post_a_blog.html', blog_index=blog_index, blog_content=blog_content, role=current_user.role))
-            return add_csp_header(response)
+            if current_user.role == 'admin' or blog.username == current_user.username:
+                blog_content = blog.content
+                response = make_response(render_template('post_a_blog.html', blog_index=blog_index, blog_content=blog_content, role=current_user.role, user=current_user.username, authorisation=1))
+                return add_csp_header(response)
+            else:
+                response = make_response(render_template('post_a_blog.html', authorisation=0))
+                return add_csp_header(response)
         else:
-            response = make_response(render_template('post_a_blog.html', blog_index=None, role=current_user.role))
+            response = make_response(render_template('post_a_blog.html', blog_index=None, role=current_user.role, user=current_user.username))
             return add_csp_header(response)
 
 
