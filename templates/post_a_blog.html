@@ -11,7 +11,7 @@
 <br>
 <br>
 <h3>Post your blog</h3>
-{% if blog_index %}
+{% if blog_index and authorisation == 1%}
 <textarea id="blog_content_edit" style="border:0;border-radius:5px;background-color:rgba(241,241,241,.98);width: 355px;height: 100px;padding: 10px;resize: none;" placeholder="share something">{{ blog_content }}</textarea>
 <br>
 <input type="submit" value="submit" onclick="Submit_edit()">
@@ -22,6 +22,11 @@
 {% endif %}
 <script type="text/javascript">
 console.log('{{blog_index}}');
+if('{{ authorisation }}'=='0'){
+            window.alert('unauthorised request!');
+            window.location.href = "/review_a_blog";
+}
+else{
     function Submit_edit(){
         let blog_content = $('#blog_content_edit').val();
         $.ajax({
@@ -43,6 +48,7 @@ console.log('{{blog_index}}');
             }
         });
     }
+}
 
     function Submit(){
         let blog_content = $('#blog_content').val();
