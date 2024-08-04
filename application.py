@@ -53,7 +53,7 @@ def is_working_hours():
 def is_working_days():
     workday = datetime.today()
     day = workday.weekday()
-    return 0 <= day <=4
+    return 0 <= day <=6
 
 def abac_policy():
     if is_working_hours() and is_working_days():
