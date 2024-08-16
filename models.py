@@ -79,21 +79,17 @@ t_user_role = db.Table(
 
 class UserView(ModelView):
     can_create = True
-    can_delete = True
-    can_edit = True
+    can_delete = False
+    can_edit = False
 
     form_columns = ['username', 'password', 'role']
 
     form_overrides = {
-        'role': SelectField
-        'password': HiddenField
+        'password': HiddenField,
     }
 
     form_args = {
         'role': {
-            'readonly': True
-        },
-        'password': {
             'readonly': True
         }
     }
