@@ -89,18 +89,12 @@ class UserView(ModelView):
         'password': HiddenField
     }
 
-    form_widget_args = {
-        'uuid': {
-            'readonly': True,
-        }
-    }
-
     form_args = {
         'role': {
-            'choices': [
-                ('admin', 'admin'),
-                ('user', 'user')
-            ]
+            'readonly': True
+        },
+        'password': {
+            'readonly': True
         }
     }
 
