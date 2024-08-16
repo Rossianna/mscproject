@@ -6,7 +6,7 @@ from flask_admin import BaseView, AdminIndexView, expose
 from flask_admin.form import Select2Widget
 from flask import render_template, redirect, url_for
 from wtforms import SelectField
-from wtforms.fields import SelectField
+from wtforms.fields import SelectField, HiddenField
 from werkzeug.security import check_password_hash
 
 db = SQLAlchemy()
@@ -86,6 +86,13 @@ class UserView(ModelView):
 
     form_overrides = {
         'role': SelectField
+        'password': HiddenField
+    }
+
+    form_widget_args = {
+        'uuid': {
+            'readonly': True,
+        }
     }
 
     form_args = {
