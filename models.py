@@ -77,16 +77,16 @@ t_user_role = db.Table(
 )
 
 
+class UserForm(Form):
+    username = StringField('Username')
+    password = HiddenField('Password')
+    role = StringField('Role')
+
 class UserView(ModelView):
+    form = UserForm
     can_create = True
     can_delete = False
     can_edit = False
-
-    form_columns = ['username', 'password', 'role']
-
-    form_overrides = {
-        'password': HiddenField,
-    }
 
     form_args = {
         'role': {
