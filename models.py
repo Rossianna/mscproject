@@ -6,7 +6,7 @@ from flask_admin import BaseView, AdminIndexView, expose
 from flask_admin.form import Select2Widget
 from flask import render_template, redirect, url_for
 from wtforms import Form
-from wtforms.fields import SelectField, HiddenField
+from wtforms.fields import SelectField, HiddenField, StringField
 from werkzeug.security import check_password_hash
 
 db = SQLAlchemy()
