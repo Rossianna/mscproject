@@ -6,7 +6,7 @@ from flask_admin import BaseView, AdminIndexView, expose
 from flask_admin.form import Select2Widget
 from flask import render_template, redirect, url_for
 from wtforms import Form
-from wtforms.fields import SelectField, HiddenField, StringField
+from wtforms.fields import SelectField, HiddenField, StringField, PasswordField
 from werkzeug.security import check_password_hash
 
 db = SQLAlchemy()
@@ -79,17 +79,20 @@ t_user_role = db.Table(
 
 class UserForm(Form):
     username = StringField('Username')
-    password = HiddenField('Password')
+    password = PasswordField('Password')
     role = StringField('Role')
 
 class UserView(ModelView):
     form = UserForm
     can_create = True
     can_delete = False
-    can_edit = False
+    can_edit = True
 
     form_args = {
         'role': {
+            'readonly': True
+        },
+        'password': {
             'readonly': True
         }
     }
