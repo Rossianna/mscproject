@@ -69,7 +69,7 @@ def home():
         else:
             response = make_response(render_template('home.html', blog_content=blog_content, current_user=None))
     else:
-        response = make_response("<h2>Website is unreachable to access during this period</h2>", 403)
+        response = make_response("<h2>Website is unreachable during this period</h2>", 403)
     return add_csp_header(response)
 
 
